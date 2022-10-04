@@ -10,3 +10,28 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_*.csv
+
+  generate_measures:
+    run: cohortextractor:latest generate_measures
+        --study-definition study_definition
+    needs: [generate_study_population]
+    outputs:
+      moderately_sensitive:
+        measure: output/measure_*.csv
+
+  grouped_counts:
+    needs: [generate_study_population]
+    run: python:latest python analysis/count_by_demographics.py
+    outputs:
+      moderately_sensitive:
+        tables: output/grouped_summary.csv
+
+generate_deciles_charts:
+  run: >
+    deciles-charts:[version]
+      --input-files output/measure_*.csv
+      --output-dir output
+  needs: [generate_measures]
+  outputs:
+    moderately_sensitive:
+      deciles_charts: output/deciles_*_*.*
