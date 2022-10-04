@@ -26,12 +26,11 @@ actions:
       moderately_sensitive:
         tables: output/grouped_summary.csv
 
-generate_deciles_charts:
-  run: >
-    deciles-charts:[version]
-      --input-files output/measure_*.csv
-      --output-dir output
-  needs: [generate_measures]
-  outputs:
-    moderately_sensitive:
-      deciles_charts: output/deciles_*_*.*
+  generate_deciles_charts:
+    run: deciles-charts:v0.0.33
+        --input-files output/measure_*.csv
+        --output-dir output
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        deciles_charts: output/deciles_*_*.*

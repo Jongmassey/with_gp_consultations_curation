@@ -37,4 +37,11 @@ measures = [
         group_by=d,
     )
     for d in demographic_variables.keys()
+] + [
+    Measure(
+        id="gp_consultations",
+        numerator="gp_consultation_count",
+        denominator="population",
+        group_by="patient_id",
+    )
 ]
